@@ -30,8 +30,8 @@ public class LevelRecordService extends BaseService<LevelRecord,Long>{
         result.put("typeName", record.getType().getName());
         result.put("beginDate", record.getBeginDate());
         result.put("endDate", record.getEndDate());
-        result.put("applyTime", settingService.calTimeByUnit(record.getApplyTime(), 60));
-        result.put("actualTime", record.getActualTime() == null ? "" : settingService.calTimeByUnit(record.getActualTime(), 60));
+        result.put("applyTime", settingService.calTimeByMin(record.getApplyTime(), 60));
+        result.put("actualTime", record.getActualTime() == null ? "" : settingService.calTimeByMin(record.getActualTime(), 60));
         result.put("reason", record.getReason());
         result.put("status", record.getStatus());
         result.put("statusName", record.getStatus().getName());

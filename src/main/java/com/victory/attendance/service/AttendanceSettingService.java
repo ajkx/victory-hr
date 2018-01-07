@@ -88,6 +88,7 @@ public class AttendanceSettingService extends BaseService<AttendanceSetting,Long
     }
 
     public Object calTimeByUnit(long value, int unit) {
+        if(value == 0) return 0;
         AttendanceSetting setting = getTopRecord();
         UnitType unitType = setting.getUnitType();
 
@@ -107,6 +108,17 @@ public class AttendanceSettingService extends BaseService<AttendanceSetting,Long
             case hour:
                 return integer;         // 直接返回整数部分
         }
+        return result;
+    }
+
+    public Object calTimeByMin(long value, int unit) {
+        if(value == 0) return 0;
+
+        double result = (double)value / (double)unit;
+        int integer = (int) (value / unit);  // 整数部分
+        double decimal = result - integer;   // 小数部分
+        if (decimal == 0) return integer;    // 如果小数为0 即返回整数
+        result = ((int)(result*100)) / 100d;        // min 返回的是相除后保留两位小数的值
         return result;
     }
 }

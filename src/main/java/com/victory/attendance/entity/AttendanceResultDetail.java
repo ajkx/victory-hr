@@ -14,7 +14,7 @@ import java.sql.Time;
  * Time:15:08
  */
 @Entity
-@Table(name="EHR_AttendanceResult_Detail")
+@Table(name="EHR_attendanceresult_Detail")
 public class AttendanceResultDetail extends BaseEntity<Long> {
 
     @JsonBackReference
@@ -43,65 +43,65 @@ public class AttendanceResultDetail extends BaseEntity<Long> {
     // long 类型都以秒为单位存
     //迟到时间
     @Column
-    private Long lateTime;
+    private Long lateTime = 0l;
 
     //迟到次数
     @Column
-    private Integer lateCount;
+    private Integer lateCount = 0;
 
     //早退时间
     @Column
-    private Long earlyTime;
+    private Long earlyTime = 0l;
 
     //早退次数
     @Column
-    private Integer earlyCount;
+    private Integer earlyCount = 0;
 
     //旷工时间 包括严重迟到和缺卡
     @Column
-    private Long absentTime;
+    private Long absentTime = 0l;
 
     //旷工次数 包括严重迟到和缺卡
     @Column
-    private Integer absentCount;
+    private Integer absentCount = 0;
 
     //事假
     @Column
-    private Long personalLevel;
+    private Long personalLevel = 0l;
 
     //调休
     @Column
-    private Long restLevel;
+    private Long restLevel = 0l;
 
     //工伤
     @Column
-    private Long injuryLevel;
+    private Long injuryLevel = 0l;
 
     //产假
     @Column
-    private Long deliveryLevel;
+    private Long deliveryLevel = 0l;
 
     //婚假
     @Column
-    private Long maritalLevel;
+    private Long maritalLevel = 0l;
 
     //丧假
     @Column
-    private Long funeralLevel;
+    private Long funeralLevel = 0l;
 
     //年假
     @Column
-    private Long annualLevel;
+    private Long annualLevel = 0l;
 
     //销假
     @Column
-    private Long cancelLevel;
+    private Long cancelLevel = 0l;
 
     @Column
-    private Long shouldWorkTime;
+    private Long shouldWorkTime = 0l;
 
     @Column
-    private Long actualWorkTime;
+    private Long actualWorkTime = 0l;
 
     public AttendanceResult getResult() {
         return result;

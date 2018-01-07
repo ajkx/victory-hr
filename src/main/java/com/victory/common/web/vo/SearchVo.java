@@ -99,6 +99,15 @@ public class SearchVo {
                 }
             };
             list.add(resourceSpec);
+        } else {
+            Specification resourceSpec = new Specification<T>() {
+                @Override
+                public Predicate toPredicate(Root<T> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                    Predicate p = root.get("resource").get("status").in(resourceService.isAll(isAll));
+                    return p;
+                }
+            };
+            list.add(resourceSpec);
         }
         Conjunction conjunction = new Conjunction(list);
         return conjunction;

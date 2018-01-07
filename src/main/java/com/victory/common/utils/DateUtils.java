@@ -25,4 +25,14 @@ public class DateUtils {
         // 返回该天的最后一秒
         return dateTime.millisOfDay().withMaximumValue().toDate();
     }
+
+    public static Date getMonthFirstDay() {
+        DateTime dateTime = new DateTime();
+        return dateTime.dayOfMonth().withMinimumValue().toDate();
+    }
+
+    public static Date getMonthLastDay(Date date) {
+        DateTime dateTime = new DateTime(date);
+        return dateTime.dayOfMonth().withMaximumValue().toDate();
+    }
 }

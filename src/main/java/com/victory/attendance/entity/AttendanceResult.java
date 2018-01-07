@@ -1,6 +1,7 @@
 package com.victory.attendance.entity;
 
 import com.victory.attendance.enums.RecordStatus;
+import com.victory.attendance.enums.ResultType;
 import com.victory.common.entity.DateEntity;
 import com.victory.hrm.entity.HrmResource;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,7 +15,7 @@ import java.util.*;
  * Time:15:08
  */
 @Entity
-@Table(name="EHR_AttendanceResult")
+@Table(name="EHR_Attendanceresult")
 public class AttendanceResult extends DateEntity<Long> {
 
     @ManyToOne(targetEntity = HrmResource.class)
@@ -31,19 +32,19 @@ public class AttendanceResult extends DateEntity<Long> {
 
     // 加班时间 分钟为单位
     @Column
-    private Integer normalOvertime;
+    private Integer normalOvertime = 0;
 
     @Column
-    private Integer weekendOvertime;
+    private Integer weekendOvertime = 0;
 
     @Column
-    private Integer festivalOvertime;
+    private Integer festivalOvertime = 0;
 
     @Column
-    private Integer shouldWorkDay;
+    private Integer shouldWorkDay = 0;
 
     @Column
-    private Double actualWorkDay;
+    private Double actualWorkDay = 0.0;
 
     //三种数据状态
     //normal - 正常（初始化状态）  abnormal - 异常（有异常出勤）  calculate - 待计算（跨天明细）
@@ -163,5 +164,30 @@ public class AttendanceResult extends DateEntity<Long> {
 
     public void setRepairRecords(Set<RepairRecord> repairRecords) {
         this.repairRecords = repairRecords;
+    }
+
+    public List<AttendanceResultDetail> getDetails() {
+        return details;
+    }
+
+    public void setDetails(List<AttendanceResultDetail> details) {
+        this.details = details;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        if (this.resource.getId() == ((AttendanceResult)o).getResource().getId() && this.date.equals(((AttendanceResult)o).getDate())) return true;
+        DateEntity<?> that = (DateEntity<?>) o;
+
+        return getId() == that.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), resource, date);
     }
 }
