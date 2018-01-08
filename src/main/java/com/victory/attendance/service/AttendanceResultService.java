@@ -9,6 +9,7 @@ import com.victory.attendance.enums.RecordStatus;
 import com.victory.attendance.repository.AttendanceResultRepository;
 import com.victory.attendance.repository.CollectorRepository;
 import com.victory.attendance.repository.HolidayRepository;
+import com.victory.attendance.web.vo.PageInfo;
 import com.victory.common.service.BaseService;
 import com.victory.common.utils.DateUtils;
 import com.victory.common.web.vo.SearchVo;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -39,23 +41,18 @@ public class AttendanceResultService extends BaseService<AttendanceResult,Long>{
         return (AttendanceResultRepository) baseRepository;
     }
 
-    public Object getCollectData(Date date, SearchVo searchVo, Pageable pageable) {
+    public PageInfo getCollectData(Date date, SearchVo searchVo, Pageable pageable) {
         Date endDate = DateUtils.getMonthLastDay(date);
         return collectorRepository.collectResult(date, endDate, searchVo, pageable);
     }
+
     @Override
     public Object packEntity(AttendanceResult record) {
         Map result = new HashMap();
         result.put("id", record.getId());
         result.put("date", record.getDate());
-        AttendanceClasses classes = record.getClasses();
-        if (classes == null) {
-            result.put("classesExist", Boolean.FALSE);
-        } else {
-            result.put("classesExist", Boolean.TRUE);
-            result.put("classes", classesService.getClassesTime(record.getClasses()));
-        }
-        result.put("classesExist", record.getClasses() == null ? "1" : "0");
+        result.put("classId", record.getClassId());
+        result.put("className", record.getClassName());
         if (record.getResource() != null) {
             result.put("resource", new HrmResourceVo(record.getResource()));
         }
@@ -101,10 +98,12 @@ public class AttendanceResultService extends BaseService<AttendanceResult,Long>{
             actualWorkTime += detail.getActualWorkTime();
             result.put("checkBeginTime_" + i, detail.getShouldBeginTime());
             result.put("actualBeginTime_" + i, detail.getActualBeginTime());
-            result.put("beginResultType_" + i, detail.getBeginResultType().getName());
+            result.put("beginResultType_" + i, detail.getBeginResultType());
+            result.put("beginResultDesc_" + i, detail.getBeginResultDesc());
             result.put("checkEndTime_" + i, detail.getShouldEndTime());
             result.put("actualBeginTime_" + i, detail.getActualEndTime());
             result.put("endResultType_" + i, detail.getEndResultType());
+            result.put("endResultDesc_" + i, detail.getEndResultDesc());
             i++;
         }
         result.put("lateTime", lateTime);

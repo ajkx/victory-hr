@@ -31,7 +31,6 @@ public class AttendanceSettingService extends BaseService<AttendanceSetting,Long
     public Object packEntity(AttendanceSetting setting) {
         Map result = new HashMap();
         // 基本信息
-        result.put("unitType", setting.getUnitType());
         Set<Long> res = setting.getIgnoreResources();
         List resList = new ArrayList<>();
         for (Long id : res) {
@@ -57,6 +56,7 @@ public class AttendanceSettingService extends BaseService<AttendanceSetting,Long
         result.put("evenResource", evenList);
 
         // 加班设置
+        result.put("overtimeUnitType", setting.getOvertimeUnitType());
         result.put("calculateType", setting.getCalculateType());
         result.put("beginMinute", setting.getBeginMinute());
         result.put("endMinute", setting.getEndMinute());
@@ -79,7 +79,7 @@ public class AttendanceSettingService extends BaseService<AttendanceSetting,Long
         AttendanceSetting setting = getRepository().getTopRecord();
         if (setting == null) {
             setting = new AttendanceSetting();
-            setting.setUnitType(UnitType.halfHour);
+            setting.setOvertimeUnitType(UnitType.halfHour);
             setting.setOddEvenWeek(false);
             save(setting);
             logger.error("重新生成了考勤设置数据，请检查以前的数据为什么被删除了！");
@@ -90,7 +90,7 @@ public class AttendanceSettingService extends BaseService<AttendanceSetting,Long
     public Object calTimeByUnit(long value, int unit) {
         if(value == 0) return 0;
         AttendanceSetting setting = getTopRecord();
-        UnitType unitType = setting.getUnitType();
+        UnitType unitType = setting.getOvertimeUnitType();
 
         double result = (double)value / (double)unit;
         int integer = (int) (value / unit);  // 整数部分

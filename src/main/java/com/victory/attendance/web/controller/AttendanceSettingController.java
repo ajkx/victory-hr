@@ -1,7 +1,6 @@
 package com.victory.attendance.web.controller;
 
 import com.victory.attendance.entity.AttendanceSetting;
-import com.victory.attendance.enums.UnitType;
 import com.victory.attendance.service.AttendanceSettingService;
 import com.victory.attendance.web.vo.SettingOvertimeInfo;
 import com.victory.attendance.web.vo.SettingWeekInfo;
@@ -37,9 +36,7 @@ public class AttendanceSettingController {
     @RequiresPermissions("attendance:setting:update")
     @RequestMapping(value = "/base",method = RequestMethod.POST)
     public Response updateBaseInfo(@RequestBody SettingBaseInfo baseInfo) {
-        if (baseInfo.getUnitType() == null) return Response.error(ExceptionMsg.ParamError);
         AttendanceSetting setting = settingService.getTopRecord();
-        setting.setUnitType(baseInfo.getUnitType());
         setting.setIgnoreResources(baseInfo.getIgnoreResources());
         settingService.update(setting);
         return Response.ok();
@@ -60,9 +57,9 @@ public class AttendanceSettingController {
     @RequiresPermissions("attendance:setting:update")
     @RequestMapping(value = "/ot", method = RequestMethod.POST)
     public Response updateOvertimeInfo(@RequestBody SettingOvertimeInfo overtimeInfo) {
-        if(overtimeInfo.getAcrossDay() && overtimeInfo.getAcrossOffset() == null) return Response.error(ExceptionMsg.ParamError);
+        if(overtimeInfo.getOvertimeUnitType() == null || (overtimeInfo.getAcrossDay() && overtimeInfo.getAcrossOffset() == null)) return Response.error(ExceptionMsg.ParamError);
         AttendanceSetting setting = settingService.getTopRecord();
-
+        setting.setOvertimeUnitType(overtimeInfo.getOvertimeUnitType());
         setting.setAcrossDay(overtimeInfo.getAcrossDay());
         if(overtimeInfo.getAcrossDay()) setting.setAcrossOffset(overtimeInfo.getAcrossOffset());
         setting.setBeginMinute(overtimeInfo.getBeginMinute());

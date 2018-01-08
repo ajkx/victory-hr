@@ -52,7 +52,7 @@ public class LevelRecord extends DateEntity<Long>{
     private String remark;
 
     @ManyToMany(targetEntity = AttendanceResult.class)
-    @JoinTable(name = "EHR_result_levelRecord",
+    @JoinTable(name = "EHR_result_levelrecord",
             joinColumns = @JoinColumn(name = "record_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "result_id",referencedColumnName = "id"))
     private Set<AttendanceResult> results;

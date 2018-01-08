@@ -22,9 +22,11 @@ public class AttendanceResult extends DateEntity<Long> {
     @JoinColumn(name = "resource_id")
     private HrmResource resource;
 
-    @ManyToOne(targetEntity = AttendanceClasses.class)
-    @JoinColumn(name = "class_id")
-    private AttendanceClasses classes;
+    @Column(name = "class_id")
+    private long classId;
+
+    @Column(name = "class_name")
+    private String className;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
@@ -52,12 +54,11 @@ public class AttendanceResult extends DateEntity<Long> {
 
 
     @OneToMany(targetEntity = AttendanceResultDetail.class,cascade = CascadeType.ALL,orphanRemoval = true,mappedBy = "result")
-//    @JoinColumn(name = "class_id")
-    private List<AttendanceResultDetail> details = new ArrayList<>();
+    private List<AttendanceResultDetail> details;
 
     //请假关联
     @ManyToMany(targetEntity = LevelRecord.class)
-    @JoinTable(name = "EHR_result_levelRecord",
+    @JoinTable(name = "EHR_result_levelrecord",
             joinColumns = @JoinColumn(name = "result_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "record_id",referencedColumnName = "id"))
     private Set<LevelRecord> levelRecords = new HashSet<>();
@@ -78,12 +79,20 @@ public class AttendanceResult extends DateEntity<Long> {
         this.resource = resource;
     }
 
-    public AttendanceClasses getClasses() {
-        return classes;
+    public long getClassId() {
+        return classId;
     }
 
-    public void setClasses(AttendanceClasses classes) {
-        this.classes = classes;
+    public void setClassId(long classId) {
+        this.classId = classId;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     public Date getDate() {

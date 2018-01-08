@@ -1,6 +1,7 @@
 package com.victory.attendance.web.vo;
 
 import com.victory.attendance.enums.CalculateType;
+import com.victory.attendance.enums.UnitType;
 
 import java.sql.Time;
 import java.util.Set;
@@ -9,6 +10,8 @@ import java.util.Set;
  * Created by Administrator on 2017/12/29.
  */
 public class SettingOvertimeInfo {
+
+    private UnitType overtimeUnitType;
 
     private CalculateType calculateType = CalculateType.regist;
 
@@ -28,6 +31,14 @@ public class SettingOvertimeInfo {
 
     public CalculateType getCalculateType() {
         return calculateType;
+    }
+
+    public UnitType getOvertimeUnitType() {
+        return overtimeUnitType;
+    }
+
+    public void setOvertimeUnitType(UnitType overtimeUnitType) {
+        this.overtimeUnitType = overtimeUnitType;
     }
 
     public void setCalculateType(CalculateType calculateType) {

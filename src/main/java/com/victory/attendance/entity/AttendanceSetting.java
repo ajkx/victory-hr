@@ -30,8 +30,8 @@ import java.util.Set;
 @Table(name = "EHR_attendancesetting")
 public class AttendanceSetting extends DateEntity<Long> {
 
-    @Column(name = "unit")
-    private UnitType unitType;
+    @Column(name = "overtimeunit")
+    private UnitType overtimeUnitType;
 
     @Type(type = "SetToStringResource")
     @Column(name = "ignore_resource")
@@ -85,12 +85,12 @@ public class AttendanceSetting extends DateEntity<Long> {
     @Column(name = "festival_period")
     private Integer festivalPeriod;
 
-    public UnitType getUnitType() {
-        return unitType;
+    public UnitType getOvertimeUnitType() {
+        return overtimeUnitType;
     }
 
-    public void setUnitType(UnitType unitType) {
-        this.unitType = unitType;
+    public void setOvertimeUnitType(UnitType overtimeUnitType) {
+        this.overtimeUnitType = overtimeUnitType;
     }
 
     public Set<Long> getIgnoreResources() {

@@ -4,7 +4,8 @@ import com.victory.attendance.entity.LevelRecord;
 import com.victory.attendance.repository.AttendanceResultRepository;
 import com.victory.attendance.repository.CollectorRepository;
 import com.victory.attendance.repository.LevelRecordRepository;
-import com.victory.attendance.web.vo.ResultCollect;
+import com.victory.attendance.web.vo.PageInfo;
+import com.victory.attendance.web.vo.ResultCollectClass;
 import com.victory.hrm.entity.HrmResource;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -51,7 +52,7 @@ public class LevelRecordTest {
     @Test
     public void testResultRespository() {
         DateTime dateTime = new DateTime(2017,12,11,0,0);
-        DateTime dateTime1 = new DateTime(2017,12,15,0,0);
+        DateTime dateTime1 = new DateTime(2018,12,15,0,0);
 //        List<ResultCollect> resultCollects = resultRepository.collectByDate(dateTime.toDate(), dateTime1.toDate());
 //        for (ResultCollect collect : resultCollects) {
 //            System.out.println(collect.getNormalOvertime());
@@ -59,9 +60,7 @@ public class LevelRecordTest {
 //            System.out.println(collect.getAbsentTime());
 //            System.out.println(collect.getActualWorkDay());
 //        }
-        List<Object[]> list = collectorRepository.collectResult(dateTime.toDate(), dateTime1.toDate(), null, null);
-        for (Object[] object : list) {
-            System.out.println(object[0]);
-        }
+        PageInfo list = collectorRepository.collectResult(dateTime.toDate(), dateTime1.toDate(), null, null);
+        System.out.println(list.getTotalElements());
     }
 }

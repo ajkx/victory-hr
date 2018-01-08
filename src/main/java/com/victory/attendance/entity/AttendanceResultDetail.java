@@ -18,7 +18,7 @@ import java.sql.Time;
 public class AttendanceResultDetail extends BaseEntity<Long> {
 
     @JsonBackReference
-    @ManyToOne(targetEntity = AttendanceClasses.class)
+    @ManyToOne(targetEntity = AttendanceResult.class)
     @JoinColumn(name = "result_id")
     private AttendanceResult result;
 
@@ -31,6 +31,9 @@ public class AttendanceResultDetail extends BaseEntity<Long> {
     @Column(name = "begin_result_type")   // 上班出勤结果
     private ResultType beginResultType;
 
+    @Column(name = "begin_result_desc")
+    private String beginResultDesc;
+
     @Column(name = "should_end_time")      // 班次规定下班时间
     private Time shouldEndTime;
 
@@ -39,6 +42,10 @@ public class AttendanceResultDetail extends BaseEntity<Long> {
 
     @Column(name = "end_result_type")     // 下班出勤结果
     private ResultType endResultType;
+
+    @Column(name = "end_result_desc")
+    private String endResultDesc;
+
 
     // long 类型都以秒为单位存
     //迟到时间
@@ -285,5 +292,29 @@ public class AttendanceResultDetail extends BaseEntity<Long> {
 
     public void setActualWorkTime(Long actualWorkTime) {
         this.actualWorkTime = actualWorkTime;
+    }
+
+    public String getBeginResultDesc() {
+        return beginResultDesc;
+    }
+
+    public void setBeginResultDesc(String beginResultDesc) {
+        this.beginResultDesc = beginResultDesc;
+    }
+
+    public String getEndResultDesc() {
+        return endResultDesc;
+    }
+
+    public void setEndResultDesc(String endResultDesc) {
+        this.endResultDesc = endResultDesc;
+    }
+
+    public Long getMaritalLevel() {
+        return maritalLevel;
+    }
+
+    public void setMaritalLevel(Long maritalLevel) {
+        this.maritalLevel = maritalLevel;
     }
 }

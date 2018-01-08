@@ -1,7 +1,6 @@
 package com.victory.attendance.repository;
 
 import com.victory.attendance.entity.AttendanceResult;
-import com.victory.attendance.entity.Holiday;
 import com.victory.attendance.web.vo.ResultCollect;
 import com.victory.common.repository.BaseRepository;
 import org.springframework.data.domain.Page;

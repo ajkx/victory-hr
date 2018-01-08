@@ -7,7 +7,16 @@ import com.victory.hrm.entity.HrmResource;
  */
 public interface ResultCollect {
 
-    HrmResource getResource();
+
+    long getResourceId();
+
+    String getResourceName();
+
+    String getWorkCode();
+
+    String getDepartmentId();
+
+    String getDepartmentName();
 
     int getShouldWorkDay();
 
