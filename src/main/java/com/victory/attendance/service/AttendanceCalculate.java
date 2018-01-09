@@ -3,9 +3,7 @@ package com.victory.attendance.service;
 import com.victory.attendance.entity.*;
 import com.victory.attendance.enums.HolidayType;
 import com.victory.attendance.enums.RecordStatus;
-import com.victory.attendance.repository.AttendanceClassesRepository;
-import com.victory.attendance.repository.AttendanceResultRepository;
-import com.victory.attendance.repository.HolidayRepository;
+import com.victory.attendance.repository.*;
 import com.victory.common.utils.DateUtils;
 import com.victory.common.utils.NullUtils;
 import com.victory.hrm.entity.HrmResource;
@@ -16,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -48,7 +47,14 @@ public class AttendanceCalculate {
     @Autowired
     private AttendanceClassesRepository classesRepository;
 
+    @Autowired
+    private LevelRecordRepository levelRecordRepository;
 
+    @Autowired
+    private OverTimeRecordRepository overTimeRecordRepository;
+
+    @Autowired
+    private RepairRecordService repairRecordService;
 
     /**
      * 循环计算最后考勤日期和今日之间（不包头尾）的日期的计算
@@ -213,9 +219,58 @@ public class AttendanceCalculate {
         AttendanceClasses classes = result.getClasses();
         if (classes == null) {
             classes = classesRepository.findOne(result.getClassId());
+            // 这里存在漏洞，加入某条跨天数据必须等到明天才能计算，而明天对应那个班次信息被改，导致原本时间出错
+            // 这是由于数据不及时计算导致的，因为考勤机的数据不是实时导入
+            // 一个是限制对应班次不能修改或者删除 一个是解决实时计算的问题
+        }
+
+        result.setShouldWorkDay(1);
+        List<AttendanceClassesDetail> details = classes.getTimeList();
+        for (AttendanceClassesDetail detail : details) {
+            calculateByDetail(result, detail);
         }
     }
 
+    public void calculateByDetail(AttendanceResult result, AttendanceClassesDetail classesDetail) {
+        long shouldBeginTime = classesDetail.getBeginTime().getTime() / 1000;
+        if(check(classesDetail.getBeginAcross())) shouldBeginTime += DateUtils.SECOND_PER_DAY;
+        long shouldEndTime = classesDetail.getEndTime().getTime() / 1000;
+        if(check(classesDetail.getEndAcross())) shouldEndTime += DateUtils.SECOND_PER_DAY;
+        if(shouldEndTime < shouldBeginTime) {
+            System.out.println("班次时间顺序错误，退出计算");
+            return;
+        }
+
+        HrmResource resource = result.getResource();
+        AttendanceResultDetail detail = new AttendanceResultDetail();
+        detail.setShouldBeginTime(shouldBeginTime);
+        detail.setShouldEndTime(shouldEndTime);
+        detail.setShouldWorkTime(shouldEndTime - shouldBeginTime);
+
+        // 每日的打卡时间
+        long dateTime = result.getDate().getTime();
+        long timeUp = dateTime + shouldBeginTime;
+        long timeDown = dateTime + shouldEndTime;
+
+        // 遍历请假记录，不status有关联，找寻所有的与打卡时间交集的记录
+        List<LevelRecord> levelRecords = levelRecordRepository.findByResourceAndBeginDateBetween(resource, new Date(timeUp), new Date(timeUp));
+        if (!check(levelRecords)) {
+
+        }
+    }
+
+    public void calculateAttendanceType(AttendanceResult result, AttendanceResultDetail detail, AttendanceClassesDetail classesDetail, long timeUp, long timeDown) {
+        HrmResource resource = result.getResource();
+        AttendanceClasses classes = result.getClasses();
+        boolean offDutyCheck = check(classes.getOffDutyCheck());
+        long lateMilli = classes.getLateMinute() * DateUtils.MILLIS_PER_MINUTE;
+        long earlyMilli = classes.getEarlyMinute() * DateUtils.MILLIS_PER_MINUTE;
+        long scopeUp = classesDetail.getBeginMinute() * DateUtils.MILLIS_PER_MINUTE;
+        long scopeDown = classesDetail.getEndMinute() * DateUtils.MILLIS_PER_MINUTE;
+
+        long beginTime = timeUp - scopeUp;
+        long endTime = timeDown + scopeDown;
+    }
     /**
      * 根据考勤组设置的班次列表获取该日对应的班次
      * @param group

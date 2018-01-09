@@ -32,6 +32,7 @@ public interface LevelRecordRepository extends BaseRepository<LevelRecord,Long> 
 
     List<LevelRecord> findByStatus(RecordStatus status);
 
+    List<LevelRecord> findByResourceAndBeginDateBetween(HrmResource resource, Date beginDate, Date endDate);
     /**
      * 找出不为销假的时间交集记录
      * @param resource

@@ -83,9 +83,11 @@ public class LevelRecordTest {
     @Test
     public void testHrmResourceRespository() {
         DateTime dateTime = new DateTime(2018,12,31,0,0);
-        System.out.println(dateTime.getDayOfWeek());
-        System.out.println(dateTime.getWeekOfWeekyear());
-        System.out.println(dateTime.getWeekyear());
+//        System.out.println(dateTime.getDayOfWeek());
+//        System.out.println(dateTime.getWeekOfWeekyear());
+//        System.out.println(dateTime.getWeekyear());
+        DateTime dateTime1 = new DateTime(86390000);
+        System.out.println(dateTime1.toString("HH:mm:ss"));
 //        List l = resourceRepository.findOnWokingAndbetweenEntryDate(dateTime.toDate());
 //        System.out.println(l.size());
     }

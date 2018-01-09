@@ -17,6 +17,8 @@ public class DateUtils {
     public static final long MILLIS_PER_HOUR = 3600000L;
     public static final long MILLIS_PER_DAY = 86400000L;
 
+    public static final long SECOND_PER_DAY = 86400L;
+
     public static Date getToday() {
         DateTime dateTime = new DateTime();
         return dateTime.withTimeAtStartOfDay().toDate();
@@ -100,5 +102,25 @@ public class DateUtils {
         DateTime dateTime = new DateTime(date);
         int weekOfYear = dateTime.getWeekOfWeekyear();
         return weekOfYear % 2 != 0;
+    }
+
+    public static String getTimeBySecond(Long value) {
+        if(value == null || value <= 0) return "";
+        DateTime dateTime = new DateTime(value * 1000);
+        String result = dateTime.toString("HH:mm");
+        if (value > MILLIS_PER_DAY) {
+            result = "次日"+result;
+        }
+        return result;
+    }
+
+    public static String getTimeByMilli(Long value) {
+        if(value == null || value <= 0) return "";
+        DateTime dateTime = new DateTime(value);
+        String result = dateTime.toString("HH:mm");
+        if (value > MILLIS_PER_DAY) {
+            result = "次日"+result;
+        }
+        return result;
     }
 }

@@ -6,12 +6,11 @@ import com.victory.common.entity.BaseEntity;
 import com.victory.common.entity.DateEntity;
 
 import javax.persistence.*;
-import java.sql.Time;
 
 /**
  * Created by ajkx
  * Date: 2017/7/3.
- * Time:15:08
+ * Long:15:08
  */
 @Entity
 @Table(name="EHR_attendanceresult_Detail")
@@ -22,11 +21,12 @@ public class AttendanceResultDetail extends BaseEntity<Long> {
     @JoinColumn(name = "result_id")
     private AttendanceResult result;
 
+    // 以秒为单位存时间，大于86400的即代表跨天
     @Column(name = "should_begin_time")    // 班次规定上班时间
-    private Time shouldBeginTime;
+    private Long shouldBeginTime;
 
     @Column(name = "actual_begin_time")   // 实际上班打卡时间
-    private Time actualBeginTime;
+    private Long actualBeginTime;
 
     @Column(name = "begin_result_type")   // 上班出勤结果
     private ResultType beginResultType;
@@ -35,10 +35,10 @@ public class AttendanceResultDetail extends BaseEntity<Long> {
     private String beginResultDesc;
 
     @Column(name = "should_end_time")      // 班次规定下班时间
-    private Time shouldEndTime;
+    private Long shouldEndTime;
 
     @Column(name = "actual_end_time")     // 实际下班打卡时间
-    private Time actualEndTime;
+    private Long actualEndTime;
 
     @Column(name = "end_result_type")     // 下班出勤结果
     private ResultType endResultType;
@@ -118,19 +118,19 @@ public class AttendanceResultDetail extends BaseEntity<Long> {
         this.result = result;
     }
 
-    public Time getShouldBeginTime() {
+    public Long getShouldBeginTime() {
         return shouldBeginTime;
     }
 
-    public void setShouldBeginTime(Time shouldBeginTime) {
+    public void setShouldBeginTime(Long shouldBeginTime) {
         this.shouldBeginTime = shouldBeginTime;
     }
 
-    public Time getActualBeginTime() {
+    public Long getActualBeginTime() {
         return actualBeginTime;
     }
 
-    public void setActualBeginTime(Time actualBeginTime) {
+    public void setActualBeginTime(Long actualBeginTime) {
         this.actualBeginTime = actualBeginTime;
     }
 
@@ -142,19 +142,19 @@ public class AttendanceResultDetail extends BaseEntity<Long> {
         this.beginResultType = beginResultType;
     }
 
-    public Time getShouldEndTime() {
+    public Long getShouldEndTime() {
         return shouldEndTime;
     }
 
-    public void setShouldEndTime(Time shouldEndTime) {
+    public void setShouldEndTime(Long shouldEndTime) {
         this.shouldEndTime = shouldEndTime;
     }
 
-    public Time getActualEndTime() {
+    public Long getActualEndTime() {
         return actualEndTime;
     }
 
-    public void setActualEndTime(Time actualEndTime) {
+    public void setActualEndTime(Long actualEndTime) {
         this.actualEndTime = actualEndTime;
     }
 

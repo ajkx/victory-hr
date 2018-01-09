@@ -40,10 +40,10 @@ public class AttendanceClassesDetail extends BaseEntity<Long>{
     private Boolean endAcross;
 
     @Column(name = "begin_minute")  // 上班有效打卡分钟数
-    private Integer beginMinute;
+    private Integer beginMinute = 30;
 
     @Column(name = "end_minute")    // 下班有效打卡分钟数
-    private Integer endMinute;
+    private Integer endMinute = 30 ;
 
 //    public ClassesDetailType getType() {
 //        return type;

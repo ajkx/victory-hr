@@ -96,12 +96,12 @@ public class AttendanceResultService extends BaseService<AttendanceResult,Long>{
             cancelLevel += detail.getCancelLevel();
             shouldWorkTime += detail.getShouldWorkTime();
             actualWorkTime += detail.getActualWorkTime();
-            result.put("checkBeginTime_" + i, detail.getShouldBeginTime());
-            result.put("actualBeginTime_" + i, detail.getActualBeginTime());
+            result.put("checkBeginTime_" + i, DateUtils.getTimeBySecond(detail.getShouldBeginTime()));
+            result.put("actualBeginTime_" + i, DateUtils.getTimeBySecond(detail.getActualBeginTime()));
             result.put("beginResultType_" + i, detail.getBeginResultType());
             result.put("beginResultDesc_" + i, detail.getBeginResultDesc());
-            result.put("checkEndTime_" + i, detail.getShouldEndTime());
-            result.put("actualBeginTime_" + i, detail.getActualEndTime());
+            result.put("checkEndTime_" + i, DateUtils.getTimeBySecond(detail.getShouldEndTime()));
+            result.put("actualBeginTime_" + i, DateUtils.getTimeBySecond(detail.getActualEndTime()));
             result.put("endResultType_" + i, detail.getEndResultType());
             result.put("endResultDesc_" + i, detail.getEndResultDesc());
             i++;
