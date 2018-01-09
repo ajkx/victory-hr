@@ -40,7 +40,7 @@ public class HolidayService extends BaseService<Holiday,Long>{
             result.put("useRest", holiday.getUseRest());
         } else if (type == HolidayType.work) {
             result.put("useClass", holiday.getUseClass());
-            result.put("classes", holiday.getClasses());
+            result.put("classes", classesService.findOne(holiday.getClassId()));
         }
         return result;
     }

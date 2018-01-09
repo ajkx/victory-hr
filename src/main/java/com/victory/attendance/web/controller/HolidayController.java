@@ -9,6 +9,7 @@ import com.victory.attendance.service.AttendanceClassesService;
 import com.victory.attendance.service.HolidayService;
 import com.victory.common.domain.result.ExceptionMsg;
 import com.victory.common.domain.result.Response;
+import com.victory.common.utils.NullUtils;
 import com.victory.common.web.controller.BaseController;
 import net.kaczmarzyk.spring.data.jpa.domain.DateBetween;
 import net.kaczmarzyk.spring.data.jpa.domain.Like;
@@ -57,8 +58,8 @@ public class HolidayController extends BaseController<Holiday,Long> {
         }
         // 判断classes是否存在
         if (entity.getType() == HolidayType.work) {
-            if (entity.getClasses() != null && entity.getClasses().getId() != null) {
-                if(classesService.findOne(entity.getClasses().getId()) == null){
+            if (NullUtils.check(entity.getClassId())) {
+                if(classesService.findOne(entity.getClassId()) == null){
                     response.setExceptionMsg(ExceptionMsg.ParamError);
                     return false;
                 }

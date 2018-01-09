@@ -31,9 +31,8 @@ public class Holiday extends DateEntity<Long>{
     private Boolean useClass;
 
     // 统一使用的班次
-    @ManyToOne(targetEntity = AttendanceClasses.class)
-    @JoinColumn(name = "classes")
-    private AttendanceClasses classes;
+    @Column(name = "classes")
+    private Long classId;
 
     // 休息日是否启用自动调休，会自动使用年假或平时加班或周末加班剩余的时数自动调休
     // 如果不开启，即当天的出勤算作请假，如开启，会判断剩余的可调休时数判断调休或年假或请假
@@ -72,12 +71,12 @@ public class Holiday extends DateEntity<Long>{
         this.useClass = useClass;
     }
 
-    public AttendanceClasses getClasses() {
-        return classes;
+    public Long getClassId() {
+        return classId;
     }
 
-    public void setClasses(AttendanceClasses classes) {
-        this.classes = classes;
+    public void setClasses(Long classId) {
+        this.classId = classId;
     }
 
     public Boolean getUseRest() {

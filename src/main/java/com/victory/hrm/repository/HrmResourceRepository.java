@@ -8,6 +8,7 @@ import com.victory.hrm.entity.HrmSubCompany;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,6 +37,13 @@ public interface HrmResourceRepository extends BaseRepository<HrmResource,Long> 
     @Query("from HrmResource where department in ?1 and status in ?2")
     List<HrmResource> findByDepartmentIn(List<HrmDepartment> departments, HrmStatus[] statuses);
 
+    /**
+     * 找出在职的并且日期处于合同开始与结束之间
+     * @param date
+     * @return
+     */
+    @Query(value = "from HrmResource where createDate < ?1 and status in (0,1,2,3)")
+    List<HrmResource> findOnWokingAndbetweenEntryDate(Date date);
 
     List<HrmResource> findByIdIn(List<Long> ids);
 

@@ -6,6 +6,7 @@ import com.victory.attendance.entity.Card;
 import com.victory.common.entity.BaseEntity;
 
 import javax.persistence.*;
+import java.util.Date;
 
 
 /**
@@ -95,7 +96,8 @@ public class HrmResource extends BaseEntity<Long> {
 
     //创建日期
     @Column(name = "createdate")
-    private String createDate;
+    @Temporal(TemporalType.DATE)
+    private Date createDate;
 
     // ========考勤信息==========
     @JsonBackReference
@@ -229,11 +231,11 @@ public class HrmResource extends BaseEntity<Long> {
         this.probationEnddate = probationEnddate;
     }
 
-    public String getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(String createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 

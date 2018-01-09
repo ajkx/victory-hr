@@ -22,6 +22,9 @@ public class AttendanceResult extends DateEntity<Long> {
     @JoinColumn(name = "resource_id")
     private HrmResource resource;
 
+    @Transient
+    private AttendanceClasses classes;
+
     @Column(name = "class_id")
     private long classId;
 
@@ -181,6 +184,14 @@ public class AttendanceResult extends DateEntity<Long> {
 
     public void setDetails(List<AttendanceResultDetail> details) {
         this.details = details;
+    }
+
+    public AttendanceClasses getClasses() {
+        return classes;
+    }
+
+    public void setClasses(AttendanceClasses classes) {
+        this.classes = classes;
     }
 
     @Override
